@@ -1,0 +1,38 @@
+<%- include('../layouts/head.ejs') %>
+<style>
+
+    main {
+    /* padding: 1rem; */
+    margin: 1rem;
+    }
+
+    .card{
+        margin: 1rem;
+        /* width: 20rem; */
+    }
+
+    img{
+        width: 150px;
+        height: 550px;
+    }
+
+
+</style>
+</head>
+<body>
+    <%- include('../layouts/navbar.ejs') %>
+    <main>
+        <div class="card bg-light mb-3" id="card">
+            <img src="https://www.insidehighered.com/sites/default/server_files/media/breaking%20down%20journal.jpg" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title"><%=articales.title%></h5>
+              <p class="card-text"><%=articales.content%></p>
+              <p><span style="font-weight: bold;">created at: </span><%=articales.created_at%></p>
+              <% if(lang == 1) {%>
+                <a href="/<%=articales.id%>/2" class="btn btn-primary">Ar</a>
+              <%} else{ %> <a href="/<%=articales.id%>/1" class="btn btn-primary">En</a>%> <% } %>
+            </div>
+          </div>
+    </main>
+    
+<%- include('../layouts/footer.ejs') %>
