@@ -1,7 +1,22 @@
 const Student = require('../models/student')
 
-const showAllStudents = (req,res)=>{
-    res.send('Hello')
+const showAllStudents = async (req,res)=>{
+    try{
+        let students = await Student.find({})
+        console.log(students);
+        res.status(200).send({
+            apiStatus:true,
+            data:{students},
+            message:'Retrive all data'
+        })
+    }
+    catch(e){
+        res.status(500).send({
+            apiStatus:false,
+            data:e,
+            message:'Vailed to retrive all data'
+        })
+    }
 }
 
 const addStudent = async (req,res) => {

@@ -61,7 +61,6 @@ studentSchema.pre('save',async function(){
     }
 })
 
-
 studentSchema.statics.login = async (email,pass) => {
     const student = await Student.findOne({email});
     if(!student) throw new Error('email not found')
@@ -91,6 +90,11 @@ studentSchema.statics.deleteUser = async (email) => {
     const x =  await Student.findByEmail(email)
     if(!x) throw new Error("Invalid Email")
     await Student.deleteOne({email})
+}
+
+studentSchema.methods.showAllStudents = async ()=>{
+    let students = await Student.find({})
+    return students;
 }
 
 const Student = mongoose.model('Student',studentSchema); 
