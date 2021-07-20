@@ -92,11 +92,6 @@ studentSchema.statics.deleteUser = async (email) => {
     await Student.deleteOne({email})
 }
 
-studentSchema.methods.showAllStudents = async ()=>{
-    let students = await Student.find({})
-    return students;
-}
-
 const Student = mongoose.model('Student',studentSchema); 
 
 module.exports = Student

@@ -1,4 +1,5 @@
 const Student = require('../models/student')
+const Course = require('../models/course')
 
 const showAllStudents = async (req,res)=>{
     try{
@@ -19,11 +20,28 @@ const showAllStudents = async (req,res)=>{
     }
 }
 
-const addStudent = async (req,res) => {
+const showSingleStudent = async (req,res)=>{
+    try{
+        let student = await Student.find({'userId':req.params.userId})
+        res.status(200).send({
+            apiStatus:true,
+            data:{student},
+            message:'Retrive Student data'
+        })
+    }
+    catch(e){
+        res.status(500).send({
+            apiStatus:false,
+            data:e,
+            message:'Vailed to retrive  data'
+        })
+    }
+
+}
+
+const addStudent = (req,res) => {
    try{
-        // console.log(req.body.name);
         const studentData = new Student(req.body)
-        // console.log(studentData);
         studentData.save()
 
         res.status(200).send({
@@ -82,10 +100,33 @@ const deleteStudent = async (req,res)=>{
     }
 }
 
+const addCourse = (req,res) =>{
+    try{
+        
+        const courseData = new Course(req.body)
+        courseData.save() 
+        
+        res.status(200).send({
+            apiStatus:true,
+            data:courseData,
+            message:"Course successfully add"
+        })
+    }
+    catch(e){
+        res.status(500).send({
+            apiStatus:false,
+            data:e,
+            message:"Invalid course data"
+        })
+    }
+}
+
+
 module.exports = {
     showAllStudents,
+    showSingleStudent,
     addStudent,
     login,
-    deleteStudent
-
+    deleteStudent,
+    addCourse,
 }
