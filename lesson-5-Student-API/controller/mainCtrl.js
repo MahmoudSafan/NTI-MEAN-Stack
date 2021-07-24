@@ -121,6 +121,12 @@ const addCourse = (req,res) =>{
     }
 }
 
+const profile = (req,res) =>{
+    // res.send("Hello Mr.X in your profile")
+    res.send(req.user)    
+    // res.send(req.token)    
+}
+
 
 module.exports = {
     showAllStudents,
@@ -129,4 +135,5 @@ module.exports = {
     login,
     deleteStudent,
     addCourse,
+    profile,
 }
