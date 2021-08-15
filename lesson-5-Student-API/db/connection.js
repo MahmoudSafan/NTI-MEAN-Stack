@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 try{
-    mongoose.connect('mongodb://localhost:27017/StudentTask',{
+    mongoose.connect(process.env.MONGOURL,{
         useCreateIndex: true,
         useFindAndModify: true,
         useNewUrlParser: true,
