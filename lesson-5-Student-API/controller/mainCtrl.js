@@ -1,5 +1,6 @@
 const Student = require('../models/student')
-const Course = require('../models/course')
+const Course = require('../models/course');
+const { findOne } = require('../models/student');
 
 const showAllStudents = async (req,res)=>{
     try{
@@ -121,19 +122,76 @@ const addCourse = (req,res) =>{
     }
 }
 
-const profile = (req,res) =>{
-    // res.send("Hello Mr.X in your profile")
+const profile = async (req,res) =>{
     res.send(req.user)    
-    // res.send(req.token)    
 }
 
+const activate = async (req,res)=>{
+    try{
+        const student = await Student.findOne({otp:req.params.otp, userStates:false})
+        if(!student) throw new Error('User not found')
+        student.userStates = true
+        student.otp = ""
+        student.save()
+        res.status(200).send({
+            apiStatus:true,
+            data:{student},
+            message:"Üser Successfuly Activated"
+        })
+    }
+    catch(e){
+        console.log(e);
+        res.status(400).send({
+            apiStatus:false,
+            data:e,
+            message:"User not found"
+        })
+    }
+}
 
+const deActivate = async (req,res)=>{
+    try{
+        const student = await Student.findOne({email:req.body.email})
+        if(!student) throw new Error('User not found')
+        student.userStates = false
+        student.otp = Date.now()
+        student.save()
+        
+        res.status(200).send({
+            apiStatus:true,
+            data:{},
+            message:"User Deactivated"
+        })
+    }
+    catch(e){
+        
+        res.status(500).send({
+            apiStatus:false,
+            data:e,
+            message:"User Cannot Deactivated"
+        })
+    }
+}
+
+const logout = async (req,res) =>{
+    req.user.tokens = req.user.tokens.filter(ele =>{
+        return ele.token != req.token
+    })
+    await req.user.save()
+    res.status(200).send({
+        apiStatus:true,
+        message:"User Logged out"
+    })
+}
 module.exports = {
     showAllStudents,
     showSingleStudent,
     addStudent,
     login,
+    logout,
     deleteStudent,
     addCourse,
     profile,
+    activate,
+    deActivate,
 }

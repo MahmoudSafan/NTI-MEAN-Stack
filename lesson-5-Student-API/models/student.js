@@ -25,11 +25,6 @@ const studentSchema = mongoose.Schema({
         required:true,        
         unique:true
     },
-    accountStatus:{
-        type:Boolean,
-        default:false
-
-    },
     courses:[{
         course:{
             type:[String]
@@ -40,7 +35,15 @@ const studentSchema = mongoose.Schema({
             type:String,
             trim:true
         }
-    }]
+    }],
+    otp:{
+        type:String,
+        default:Date.now()
+    },
+    userStates:{
+        type:Boolean,
+        default:false
+    }
 },
     {timestamps:true}
 )
